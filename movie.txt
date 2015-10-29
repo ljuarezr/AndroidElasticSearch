@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "title": "The Dark Night",
+    "director": "Christofer Nolan",
+    "year": 2008,
+    "genres": ["Action", "Adventure"]
+}
+	
+	
+{
+    "query": {
+              "query_string": {
+                               "query":"ford",
+	                       "fields": ["title"]
+	     }
+       }
+}

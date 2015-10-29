@@ -1,0 +1,37 @@
+HTTP: HyperText Transfer Protocol
+REST
+JSON  language (!= GSON (library))
+
+
+cmput301.softwareprocess.es:8080/<index>/<category>/<id>
+
+for project, index will be anm  index for our team. ex. team num
+
+curl : make REST requests from terminal 
+ex. curl -XPUT "http://cmput301.softwareprocess.es:8080/testing/movie/1" -d 
+'<object>'
+
+-d means passing a json object 
+
+output: 
+{"_index":"testing","_type":"movie","_id":"1","_version":25,"created":false}
+
+version number: how many times has that object been pushed on
+
+
+XGET
+XDELETE
+for these two, we dont need the -d and the object. url is the last thing 
+
+
+XPOST: curl -XPOST "http://cmput301.softwareprocess.es:8080/testing/movie/_search" -d '<object>'
+ex. 
+curl -XPOST "http://cmput301.softwareprocess.es:8080/testing/movie/_search" -d '{
+    "query": {
+              "query_string": {
+                               "query":"ford",
+                       "fields": ["title"]
+     }
+       }
+}'
+{"took":1,"timed_out":false,"_shards":{"total":1,"successful":1,"failed":0},"hits":{"total":0,"max_score":null,"hits":[]}}ug04[lonelyTwitter]:
