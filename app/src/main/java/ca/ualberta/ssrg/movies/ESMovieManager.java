@@ -142,7 +142,8 @@ public class ESMovieManager {
 			throw new RuntimeException(e);
 		}
 
-
+		//iterate over the list of results back from the server and add them
+		//to the list of results that will be shown to the user
 		for (SearchHit<Movie> hit : esResponse.getHits().getHits()) {
 			result.add(hit.getSource());
 		}

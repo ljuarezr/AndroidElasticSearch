@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import ca.ualberta.ssrg.androidelasticsearch.R;
@@ -20,6 +23,7 @@ public class MainActivity extends Activity {
 	private ArrayAdapter<Movie> moviesViewAdapter;
 	private ESMovieManager movieManager;
 	private MoviesController moviesController;
+	Activity activity = this;
 
 	private Context mContext = this;
 
@@ -29,6 +33,16 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		movieList = (ListView) findViewById(R.id.movieList);
+
+		Button searchButton = (Button) findViewById(R.id.searchButton);
+		searchButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) { //controller
+				search(v); //pass the view as a parameter
+			}
+		});
+
+
 	}
 
 	@Override
@@ -65,13 +79,19 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
+
+
+		//Create an onClickListener for the Search button
+
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
-		
+
+		//You cannot access the network from the GUI thread, So,
+		//let us create another thread to do that work
+		//If we try to use the GUI thread, the GUi will stop and wait
 		SearchThread thread = new SearchThread("*");
 
 		thread.start();
@@ -101,8 +121,14 @@ public class MainActivity extends Activity {
 		movies.clear();
 
 		// TODO: Extract search query from text view
+		EditText searchString = (EditText) findViewById(R.id.searchEditText);
+		String searchQuery = searchString.getText().toString();
+
 		
 		// TODO: Run the search thread
+		SearchThread searchThread = new SearchThread(searchQuery);
+		searchThread.start();
+		searchThread.run();
 		
 	}
 	
